@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container>* {
+  width: 100%;
+}
+
+.mat-raised-button{
+  width: 100%;
+}
+.mat-flat-button{
+  width: 100%;
+}
+
+.mat-card{
+  width: 50%;
+
+}
+
+:host {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0px;
+}

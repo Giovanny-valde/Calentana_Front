@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="modal-header">
+    <h4 class="modal-title" *ngIf="!tienda"> Agregar Tienda <i class="fa-solid fa-plus"></i> </h4>
+    <h4 class="modal-title" *ngIf="tienda"> Edicion Tienda <i class="fa-solid fa-pencil"></i> </h4>
+  </div>
+
+  <form [formGroup]="form">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <div [hidden]="true">
+            <label for="exampleFormControlInput1" class="form-label"> ID </label>
+            <input type="text" class="form-control" placeholder="ID" formControlName="Id">
+          </div>
+
+          <label class="form-label"> Nombre </label>
+          <input type="text" class="form-control" placeholder="Nombre" formControlName="Nombre">
+
+          <label class="form-label"> Dueño </label>
+          <input type="text" class="form-control" placeholder="Dueño" formControlName="Dueno">
+
+          <label class="form-label"> Nit </label>
+          <input type="text" class="form-control" placeholder="Nit" formControlName="Nit">
+
+          <label class="form-label"> Telefono </label>
+          <input type="text" class="form-control" placeholder="Telefono" formControlName="Telefono">
+
+          <label class="form-label"> Direccion </label>
+          <input type="text" class="form-control" placeholder="Direccion" formControlName="Direccion">
+
+          <!-- <label class="form-label"> Ruta </label>
+          <input type="text" class="form-control" placeholder="Ruta" formControlName="Ruta"> -->
+
+          <label class="form-label"> Ruta </label>
+          <select class="form-select" placeholder="Ruta" formControlName="Ruta">
+            <option *ngFor="let item of rutas" [value]="item.Id"> {{item.Nombre}} </option>
+          </select>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-secondary" (click)="closeModal()"> Cancelar </button>
+      <button type="submit" class="btn btn-primary" *ngIf="!tienda" (click)="operate()" [disabled]="form.invalid">
+        Guardar </button>
+      <button type="submit" class="btn btn-primary" *ngIf="tienda" (click)="operate()" [disabled]="form.invalid">
+        Actualizar </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,58 @@
+<div class="container">
+  <form [formGroup]="form">
+    <!-- <button class="button" type="submit">Purchase</button> -->
+    <ng-container formArrayName="tiendas">
+
+      <div class="row">
+        <div class="col-3">
+          <label class="form-label"> Tienda </label>
+        </div>
+        <div class="col-3">
+          <label class="form-label"> Tradicional </label>
+        </div>
+        <div class="col-3">
+          <label class="form-label"> Mega </label>
+        </div>
+        <div class="col-3">
+          <label class="form-label"> Devolucion </label>
+        </div>
+      </div>
+
+      <ng-container *ngFor="let item of tiendas.controls; let i=index">
+        <div [formGroupName]="i">
+
+          <div class="row">
+            <div class="col-3" [hidden]="true">
+              <input type="text" class="form-control" placeholder="Tienda" formControlName="Tienda">
+            </div>
+
+            <div class="col-3">
+              <span > {{ item.value["Tienda"].Nombre}} : </span>
+            </div>
+
+            <div class="col-3">
+              <input type="number" class="form-control" placeholder="Tradicional" formControlName="Tradicional">
+            </div>
+
+            <div class="col-3">
+              <input type="number" class="form-control" placeholder="Mega" formControlName="Mega">
+            </div>
+
+            <div class="col-3">
+              <input type="number" class="form-control" placeholder="Devolucion" formControlName="Devolucion">
+            </div>
+          </div>
+
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div class="row">
+      <div class="d-grid gap-2 col-12 col-sm-6">
+        <button type="submit" class="btn btn-primary m-2" (click)="enviar()" [disabled]="form.invalid">
+        Ingresar Ventas </button>
+      </div>
+    </div>
+
+  </form>
+</div>
