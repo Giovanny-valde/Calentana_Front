@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="modal-header">
+    <h4 class="modal-title" *ngIf="!ruta"> Agregar Ruta <i class="fa-solid fa-plus"></i> </h4>
+    <h4 class="modal-title" *ngIf="ruta"> Edicion Ruta <i class="fa-solid fa-pencil"></i> </h4>
+  </div>
+
+  <form [formGroup]="form">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <div [hidden]="true">
+            <label for="exampleFormControlInput1" class="form-label"> ID </label>
+            <input type="text" class="form-control" placeholder="ID" formControlName="Id">
+          </div>
+
+          <label class="form-label"> Nombre </label>
+          <input type="text" class="form-control" placeholder="Nombre" formControlName="Nombre">
+
+          <label class="form-label"> Cedula </label>
+          <input type="text" class="form-control" placeholder="Cedula" formControlName="Cedula">
+
+          <label class="form-label"> Telefono </label>
+          <input type="text" class="form-control" placeholder="Telefono" formControlName="Telefono">
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-secondary" (click)="closeModal()"> Cancelar </button>
+      <button type="submit" class="btn btn-primary" *ngIf="!ruta" (click)="operate()" [disabled]="form.invalid">
+        Guardar </button>
+      <button type="submit" class="btn btn-primary" *ngIf="ruta" (click)="operate()" [disabled]="form.invalid">
+        Actualizar </button>
+
+    </div>
+  </form>
+</div>

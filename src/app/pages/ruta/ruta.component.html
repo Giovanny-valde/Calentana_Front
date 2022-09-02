@@ -1,0 +1,39 @@
+<div class="container">
+
+  <form>
+    <button class="btn btn-primary col-12 col-sm-5 m-2" (click)="openModal()"> Añadir Ruta <i class="fa-solid fa-plus"></i> </button>
+    <div class="mb-3 row">
+      <label class="col-xs-3 col-sm-auto col-form-label"> Buscar : </label>
+      <div class="col-xs-3 col-sm-auto">
+        <input class="form-control" type="text" [formControl]="filter">
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-hover table-sm">
+    <thead class="table-dark">
+      <tr>
+        <th> Nombre </th>
+        <th> Cedula </th>
+        <th> Telefono </th>
+        <th> Acciones </th>
+      </tr>
+    </thead>
+    <tBody>
+      <tr *ngFor="let item of rutas$ | async; index as i">
+        <!-- <tr *ngFor="let item of rutas"> -->
+        <td> {{item.Nombre}} </td>
+        <td> {{item.Cedula}} </td>
+        <td> {{item.Telefono}} </td>
+        <td>
+          <i class="fa-solid fa-pencil text-primary me-2" data-bs-toggle="tooltip" data-bs-title="Editar"
+            (click)="openModal(item)"></i>
+          <i class="fa-solid fa-trash text-danger" (click)="eliminar(item.Id)"></i>
+          <!-- <button class="btn btn-primary" (click)="editar(item)"> <i class="fa-solid fa-pencil"></i> </button>
+          <button class="btn btn-danger" (click)="eliminar(item._id)"> <i class="fa-solid fa-trash"></i> </button> -->
+        </td>
+      </tr>
+    </tBody>
+  </table>
+</div>
+
