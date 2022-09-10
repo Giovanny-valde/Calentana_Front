@@ -11,6 +11,8 @@ import { TiendaComponent } from './tienda/tienda.component';
 import { RutaComponent } from './ruta/ruta.component';
 import { FormRutaComponent } from './ruta/form-ruta/form-ruta.component';
 import { FormTiendaComponent } from './tienda/form-tienda/form-tienda.component';
+import { EmpleadoComponent } from './empleado/empleado.component';
+import { FormEmpleadoComponent } from './empleado/form-empleado/form-empleado.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { FormTiendaComponent } from './tienda/form-tienda/form-tienda.component'
     RutaComponent,
     FormRutaComponent,
     FormTiendaComponent,
+    EmpleadoComponent,
+    FormEmpleadoComponent,
   ],
   imports: [
     CommonModule,

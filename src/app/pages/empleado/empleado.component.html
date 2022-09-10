@@ -1,7 +1,7 @@
 <div class="container">
 
   <form>
-    <button class="btn btn-primary col-12 col-sm-5 m-2" (click)="openModal()"> Añadir Ruta <i class="fa-solid fa-plus"></i> </button>
+    <button class="btn btn-primary col-12 col-sm-5 m-2" (click)="openModal()"> Añadir Empleado <i class="fa-solid fa-plus"></i> </button>
     <div class="mb-3 row">
       <label class="col-xs-3 col-sm-auto col-form-label"> Buscar : </label>
       <div class="col-xs-3 col-sm-auto">
@@ -13,20 +13,18 @@
   <table class="table table-hover table-sm">
     <thead class="table-dark">
       <tr>
-        <th> Ruta </th>
-        <th> Repartidor </th>
+        <th> Empleado </th>
         <th> Cedula </th>
         <th> Telefono </th>
         <th> Acciones </th>
       </tr>
     </thead>
     <tBody>
-      <tr *ngFor="let item of rutas$ | async; index as i">
+      <tr *ngFor="let item of empleados$ | async; index as i">
         <!-- <tr *ngFor="let item of rutas"> -->
         <td> {{item.Nombre}} </td>
-        <td> {{item.Empleado.Nombre}} </td>
-        <td> {{item.Empleado.Cedula}} </td>
-        <td> {{item.Empleado.Telefono}} </td>
+        <td> {{item.Cedula}} </td>
+        <td> {{item.Telefono}} </td>
         <td>
           <i class="fa-solid fa-pencil text-dark me-2" data-bs-toggle="tooltip" data-bs-title="Editar"
             (click)="openModal(item)"></i>

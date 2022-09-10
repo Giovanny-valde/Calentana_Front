@@ -1,3 +1,5 @@
+import { EmpleadoService } from './../../../_service/empleado.service';
+import { Empleado } from './../../../_model/empleado.interface';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RutaService } from './../../../_service/ruta.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -14,15 +16,18 @@ export class FormRutaComponent implements OnInit {
   form: FormGroup;
   rutas: Ruta[];
   ruta: Ruta;
+  empleados: Empleado[];
 
   constructor(
     private _rutaService: RutaService,
+    private _empleadoService: EmpleadoService,
     private _formBuilder: FormBuilder,
     public _activeModal: NgbActiveModal
   ) { }
 
   ngOnInit(): void {
     this.getRutas();
+    this.getEmpleados();
     this.initForm();
   }
 
@@ -30,8 +35,7 @@ export class FormRutaComponent implements OnInit {
     this.form = this._formBuilder.group({
       Id: [null],
       Nombre: [null, [Validators.required]],
-      Cedula: [null],
-      Telefono: [null],
+      Empleado: [null],
     });
   }
 
@@ -39,8 +43,7 @@ export class FormRutaComponent implements OnInit {
     this.form = this._formBuilder.group({
       Id: [this.ruta.Id, [Validators.required]],
       Nombre: [this.ruta.Nombre, [Validators.required]],
-      Cedula: [this.ruta.Cedula],
-      Telefono: [this.ruta.Telefono],
+      Empleado: [this.ruta.Empleado.Id],
     })
   }
 
@@ -55,8 +58,7 @@ export class FormRutaComponent implements OnInit {
     let ruta: Ruta = {
       Id: this.form.value["Id"],
       Nombre: this.form.value["Nombre"],
-      Cedula: this.form.value["Cedula"],
-      Telefono: this.form.value["Telefono"],
+      Empleado: this.form.value["Empleado"],
     }
     if (this.ruta) {
       this._rutaService.updateItem(ruta).subscribe(data => {
@@ -67,6 +69,7 @@ export class FormRutaComponent implements OnInit {
     } else {
       this._rutaService.saveItem(ruta).subscribe(data => {
         console.log(data);
+        this._rutaService.setChangeList(this.rutas);
         this.closeModal();
       });
     }
@@ -74,6 +77,10 @@ export class FormRutaComponent implements OnInit {
 
   getRutas() {
     this._rutaService.getItems().subscribe(data => this.rutas = data.data);
+  }
+
+  getEmpleados() {
+    this._empleadoService.getItems().subscribe(data => this.empleados = data.data);
   }
 
   closeModal() {

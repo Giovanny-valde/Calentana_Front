@@ -1,3 +1,4 @@
+import { EmpleadoComponent } from './empleado/empleado.component';
 import { VentaComponent } from './ventas/venta.component';
 import { RutaComponent } from './ruta/ruta.component';
 import { TiendaComponent } from './tienda/tienda.component';
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: "venta",
     component: VentaComponent,
+  },
+  {
+    path: "empleado",
+    component: EmpleadoComponent,
   },
 ];
 

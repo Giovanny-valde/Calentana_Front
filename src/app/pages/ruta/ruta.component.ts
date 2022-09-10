@@ -53,6 +53,8 @@ export class RutaComponent implements OnInit {
   getRutas() {
     this._rutaService.getItems().subscribe(data => {
       this.rutas = data.data;
+      console.log(this.rutas);
+
       this.tableFilter();
     });
   }
@@ -69,8 +71,8 @@ export class RutaComponent implements OnInit {
     return this.rutas.filter(val => {
       const term = text.toLowerCase();
       return val.Nombre.toLowerCase().includes(term) ||
-      val.Cedula.toString().toLowerCase().includes(term) ||
-      val.Telefono.toString().toLowerCase().includes(term)
+      val.Empleado.Cedula.toString().toLowerCase().includes(term) ||
+      val.Empleado.Nombre.toString().toLowerCase().includes(term)
     });
   }
 

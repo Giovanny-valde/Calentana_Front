@@ -1,7 +1,7 @@
 <div class="container">
   <div class="modal-header">
-    <h4 class="modal-title" *ngIf="!ruta"> Agregar Ruta <i class="fa-solid fa-plus"></i> </h4>
-    <h4 class="modal-title" *ngIf="ruta"> Edicion Ruta <i class="fa-solid fa-pencil"></i> </h4>
+    <h4 class="modal-title" *ngIf="!empleado"> Agregar Empleado <i class="fa-solid fa-plus"></i> </h4>
+    <h4 class="modal-title" *ngIf="empleado"> Edicion Empleado <i class="fa-solid fa-pencil"></i> </h4>
   </div>
 
   <form [formGroup]="form">
@@ -16,19 +16,20 @@
           <label class="form-label"> Nombre </label>
           <input type="text" class="form-control" placeholder="Nombre" formControlName="Nombre">
 
-          <label class="form-label"> Empleado </label>
-          <select class="form-select" placeholder="Ruta" formControlName="Empleado">
-            <option *ngFor="let item of empleados" [value]="item.Id"> {{item.Nombre}} - {{item.Cedula}} </option>
-          </select>
+          <label class="form-label"> Cedula </label>
+          <input type="text" class="form-control" placeholder="Cedula" formControlName="Cedula">
+
+          <label class="form-label"> Telefono </label>
+          <input type="text" class="form-control" placeholder="Telefono" formControlName="Telefono">
 
         </div>
       </div>
     </div>
     <div class="modal-footer">
       <button type="submit" class="btn btn-secondary" (click)="closeModal()"> Cancelar </button>
-      <button type="submit" class="btn btn-primary" *ngIf="!ruta" (click)="operate()" [disabled]="form.invalid">
+      <button type="submit" class="btn btn-primary" *ngIf="!empleado" (click)="operate()" [disabled]="form.invalid">
         Guardar </button>
-      <button type="submit" class="btn btn-primary" *ngIf="ruta" (click)="operate()" [disabled]="form.invalid">
+      <button type="submit" class="btn btn-primary" *ngIf="empleado" (click)="operate()" [disabled]="form.invalid">
         Actualizar </button>
 
     </div>
