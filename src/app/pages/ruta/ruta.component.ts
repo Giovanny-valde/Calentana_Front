@@ -68,9 +68,10 @@ export class RutaComponent implements OnInit {
   search(text: string): Ruta[] {
     return this.rutas.filter(val => {
       const term = text.toLowerCase();
-      return val.Nombre.toLowerCase().includes(term) ||
-      val.Cedula.toString().toLowerCase().includes(term) ||
-      val.Telefono.toString().toLowerCase().includes(term)
+      return []
+      // return val.Nombre.toLowerCase().includes(term) ||
+      // val.Cedula.toString().toLowerCase().includes(term) ||
+      // val.Telefono.toString().toLowerCase().includes(term)
     });
   }
 

@@ -39,8 +39,8 @@ export class FormRutaComponent implements OnInit {
     this.form = this._formBuilder.group({
       Id: [this.ruta.Id, [Validators.required]],
       Nombre: [this.ruta.Nombre, [Validators.required]],
-      Cedula: [this.ruta.Cedula],
-      Telefono: [this.ruta.Telefono],
+      // Cedula: [this.ruta.Cedula],
+      // Telefono: [this.ruta.Telefono],
     })
   }
 
@@ -55,8 +55,9 @@ export class FormRutaComponent implements OnInit {
     let ruta: Ruta = {
       Id: this.form.value["Id"],
       Nombre: this.form.value["Nombre"],
-      Cedula: this.form.value["Cedula"],
-      Telefono: this.form.value["Telefono"],
+      Empleado: this.form.value["Nombre"],
+      // Cedula: this.form.value["Cedula"],
+      // Telefono: this.form.value["Telefono"],
     }
     if (this.ruta) {
       this._rutaService.updateItem(ruta).subscribe(data => {

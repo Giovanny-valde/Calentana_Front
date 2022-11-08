@@ -6,6 +6,7 @@ import { VentaService } from './../../_service/venta.service';
 import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-venta',
@@ -23,11 +24,16 @@ export class VentaComponent implements OnInit {
     private _tiendaService: TiendaService,
     private _ventaService: VentaService,
     private formBuilder: FormBuilder,
+    private activatedRoute : ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.getTiendas();
-    this.initForm();
+    this.activatedRoute.params.subscribe((res : any) =>{
+      // console.log(res.id);
+      // this.idRuta = res.id
+      this.getTiendas(res.id);
+      this.initForm();
+    });
   }
 
   initForm() {
@@ -52,13 +58,12 @@ export class VentaComponent implements OnInit {
     }
   }
 
-  getTiendas() {
-    this._tiendaService.getItems().subscribe(data => {
-
-      this.tiendass = data.data
-      console.log(this.tiendass);
+  getTiendas(id : string) {
+    this._tiendaService.getTiendaByRuta(id).subscribe(({data}) => {
+      this.tiendass = data
       this.addTienda();
     });
+
   }
 
   enviar() {

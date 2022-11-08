@@ -20,7 +20,8 @@ export class TiendaService extends GenericService<Tienda> {
    }
 
    getTiendaByRuta(id: string) {
-    const url = `${environment.HOST}/tiendas/byRuta${id}`;
+    const url = `${environment.HOST}/tiendas/byRuta/${id}`;
     return this._http.get<PageResponse<Tienda>>(url);
    }
 }
+  

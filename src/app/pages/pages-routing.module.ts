@@ -19,7 +19,7 @@ const routes: Routes = [
     component: RutaComponent,
   },
   {
-    path: "venta",
+    path: "venta/:id",
     component: VentaComponent,
   },
 ];

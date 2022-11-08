@@ -1,6 +1,8 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EmpleadoService } from 'src/app/_service/empleado.service';
+import { RutaService } from 'src/app/_service/ruta.service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _router: Router,
+    private _empleadoService : EmpleadoService,
+    private _rutaService : RutaService
   ) { }
 
   ngOnInit(): void {
@@ -31,7 +35,25 @@ export class LoginComponent implements OnInit {
   }
 
   iniciarSesion() {
-    this._router.navigate(['dashBoard']);
+    let user = this.form.controls["username"].value
+    let pass = this.form.controls["password"].value
+    // console.log(user , pass);
+    if( user == pass){
+      this._empleadoService.getEmpleadoByCedula(user).subscribe( ({data})  => {
+        if(data.length != 0){
+          // console.log(data[0].Id);
+          this._rutaService.getRutaByEmpleado(data[0].Id).subscribe( (res)  => {
+            let ruta = res.data[0].Id;
+            this._router.navigate([`pages/venta/${ruta}`]);
+          })
+          alert("Bienvenido");
+        }else{
+          alert("nop")
+        }
+      })
+    }else{
+      alert("contraseña o usuario incorrecto")
+    }
   }
 
 }

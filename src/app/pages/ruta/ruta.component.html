@@ -23,8 +23,8 @@
       <tr *ngFor="let item of rutas$ | async; index as i">
         <!-- <tr *ngFor="let item of rutas"> -->
         <td> {{item.Nombre}} </td>
-        <td> {{item.Cedula}} </td>
-        <td> {{item.Telefono}} </td>
+        <!-- <td> {{item.Cedula}} </td>
+        <td> {{item.Telefono}} </td> -->
         <td>
           <i class="fa-solid fa-pencil text-primary me-2" data-bs-toggle="tooltip" data-bs-title="Editar"
             (click)="openModal(item)"></i>

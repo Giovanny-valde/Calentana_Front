@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Ruta } from '../_model/ruta.interface';
 import { environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
+import { PageResponse } from '../_model/page-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,11 @@ export class RutaService extends GenericService<Ruta> {
    getChangeMessage() {
     return this.$changeMessage.asObservable()
    }
+
+   getRutaByEmpleado(id: string) {
+    const url = `${environment.HOST}/rutas/byEmpleado/${id}`;
+    return this._http.get<PageResponse<Ruta>>(url);
+   }
+
 
 }
