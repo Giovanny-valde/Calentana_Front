@@ -14,8 +14,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmpleadoComponent implements OnInit {
 
-
-
   page: any = 1;
   pageSize: any = 4;
   collectionSize: any = 5
@@ -66,12 +64,13 @@ export class EmpleadoComponent implements OnInit {
   }
 
   search(text: string): Empleado[] {
+
     return this.empleados.filter(val => {
       const term = text.toLowerCase();
       return val.Nombre.toLowerCase().includes(term) ||
       val.Nombre.toLowerCase().includes(term) ||
-      val.Cedula.toLowerCase().includes(term) ||
-      val.Telefono.toLowerCase().includes(term)
+      val.Cedula.toString().toLowerCase().includes(term) ||
+      val.Telefono.toString().toLowerCase().includes(term)
     });
   }
 

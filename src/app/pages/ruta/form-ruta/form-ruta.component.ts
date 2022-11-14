@@ -58,7 +58,9 @@ export class FormRutaComponent implements OnInit {
     let ruta: Ruta = {
       Id: this.form.value["Id"],
       Nombre: this.form.value["Nombre"],
-      Empleado: this.form.value["Empleado"],
+      Empleado: this.form.value["Nombre"],
+      // Cedula: this.form.value["Cedula"],
+      // Telefono: this.form.value["Telefono"],
     }
     if (this.ruta) {
       this._rutaService.updateItem(ruta).subscribe(data => {

@@ -1,3 +1,5 @@
+import { StorageService } from './../../_service/storage.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormRutaComponent } from './form-ruta/form-ruta.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Ruta } from './../../_model/ruta.interface';
@@ -15,6 +17,8 @@ import { debounceTime, map, startWith } from 'rxjs/operators';
 
 export class RutaComponent implements OnInit {
 
+  id: string;
+
   rutas: Ruta[];
 
   page: any = 1;
@@ -29,14 +33,23 @@ export class RutaComponent implements OnInit {
   constructor(
     private _rutaService: RutaService,
     private _modalService: NgbModal,
+    private activatedRoute : ActivatedRoute,
+    private _storageService: StorageService
   ) {
 
   }
 
   ngOnInit(): void {
-    this.refreshCountries()
+    this.refreshCountries();
     this.getRutas();
     this._rutaService.getChangeList().subscribe(() => this.getRutas())
+  }
+
+  getParamId(){
+    this.activatedRoute.params.subscribe(data =>{
+      this.id = data["id"];
+      this.getRutas();
+    });
   }
 
   openModal(ruta?: Ruta) {
@@ -53,8 +66,6 @@ export class RutaComponent implements OnInit {
   getRutas() {
     this._rutaService.getItems().subscribe(data => {
       this.rutas = data.data;
-      console.log(this.rutas);
-
       this.tableFilter();
     });
   }

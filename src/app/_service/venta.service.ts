@@ -17,5 +17,12 @@ export class VentaService extends GenericService<Venta>{
       `${environment.HOST}/ventas`
     )
   }
+
+  pos(id: string) {
+    const url = `${environment.HOST}/tiendas/byRuta/${id}`;
+    return this._http.post(url , id);
+   }
+
+
 }
 

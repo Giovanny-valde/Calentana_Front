@@ -1,3 +1,4 @@
+import { PageResponse } from './../_model/page-response.interface';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from './generic.service';
 import { Injectable } from '@angular/core';
@@ -22,6 +23,11 @@ export class RutaService extends GenericService<Ruta> {
     )
    }
 
+   getRutaByEmployee(id: number){
+    let url = `${environment.HOST}/rutas/byEmpleado/${id}`
+    return this._http.get<Ruta[]>(url);
+   }
+
    setChangeList(lista: Ruta[]) {
     this.$changeList.next(lista)
    }
@@ -37,5 +43,11 @@ export class RutaService extends GenericService<Ruta> {
    getChangeMessage() {
     return this.$changeMessage.asObservable()
    }
+
+   getRutaByEmpleado(id: string) {
+    const url = `${environment.HOST}/rutas/byEmpleado/${id}`;
+    return this._http.get<PageResponse<Ruta>>(url);
+   }
+
 
 }

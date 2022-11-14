@@ -1,6 +1,6 @@
 export interface Empleado {
   Id: string,
   Nombre: string,
-  Cedula: string,
-  Telefono: string
+  Cedula: number,
+  Telefono: number
 }

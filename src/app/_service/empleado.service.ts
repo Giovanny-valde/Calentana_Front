@@ -1,9 +1,10 @@
-import { Subject } from 'rxjs';
+import { PageResponse } from './../_model/page-response.interface';
 import { HttpClient } from '@angular/common/http';
-import { Empleado } from './../_model/empleado.interface';
 import { GenericService } from './generic.service';
 import { Injectable } from '@angular/core';
+import { Empleado } from '../_model/empleado.interface';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +36,10 @@ export class EmpleadoService extends GenericService<Empleado> {
    getChangeMessage() {
     return this.$changeMessage.asObservable()
    }
+
+   getEmpleadoByCedula(cedula: string) {
+    const url = `${environment.HOST}/empleados/byCedula/${cedula}`;
+    return this._http.get<PageResponse<Empleado>>(url);
+   }
+
 }

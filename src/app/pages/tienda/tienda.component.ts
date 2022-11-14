@@ -19,6 +19,8 @@ import { NgbModal, NgbToast } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TiendaComponent implements OnInit {
 
+  id: string | null;
+
   tiendas: Tienda[];
   tienda: Tienda;
   form: FormGroup;
@@ -33,7 +35,8 @@ export class TiendaComponent implements OnInit {
 
   ngOnInit(): void {
     //this.initForm();
-    this.getTiendas();
+    this.getParamId();
+    this._tiendaService.getChangeList().subscribe(() => this.getTiendas(this.id))
   }
 
   initForm() {
@@ -47,6 +50,12 @@ export class TiendaComponent implements OnInit {
       Ruta: [null, [Validators.required]]
     })
   }
+
+  getParamId(){
+    this.id = localStorage.getItem("idRuta")
+    this.getTiendas(this.id);
+  }
+
 
   openModal(tienda?: Tienda) {
     let modal = this._modalService.open(FormTiendaComponent)
@@ -73,8 +82,8 @@ export class TiendaComponent implements OnInit {
       })
   }
 
-  getTiendas() {
-    this._tiendaService.getItems().subscribe(data => {
+  getTiendas(id: string | null) {
+    this._tiendaService.getTiendaByRuta(id).subscribe(data => {
       this.tiendas = data.data
       console.log(this.tiendas);
       this.tableFilter();

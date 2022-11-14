@@ -1,3 +1,4 @@
+import { StorageService } from './../../_service/storage.service';
 import { map } from 'rxjs/operators';
 import { Tienda } from './../../_model/tienda.interface';
 import { Venta } from './../../_model/venta.interface';
@@ -6,6 +7,7 @@ import { VentaService } from './../../_service/venta.service';
 import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-venta',
@@ -14,20 +16,30 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class VentaComponent implements OnInit {
 
+  id: string | null;
+
   form: FormGroup;
   formTiendas!: FormGroup;
   ventas: Venta[];
-  tiendass: Tienda[];
+  allTiendas: Tienda[];
 
   constructor(
     private _tiendaService: TiendaService,
     private _ventaService: VentaService,
     private formBuilder: FormBuilder,
+    private activatedRoute : ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this.getTiendas();
-    this.initForm();
+    this.getParamId();
+  }
+
+  getParamId(){
+    this.activatedRoute.params.subscribe(data =>{
+      this.id = localStorage.getItem("idRuta")
+      this.initForm();
+      this.getTiendas(this.id)
+    });
   }
 
   initForm() {
@@ -41,9 +53,9 @@ export class VentaComponent implements OnInit {
   }
 
   addTienda() {
-    for (let i = 0; i < this.tiendass.length; i++) {
+    for (let i = 0; i < this.allTiendas.length; i++) {
       const nuevaTiendaForm = this.formBuilder.group({
-        Tienda: [this.tiendass[i]],
+        Tienda: [this.allTiendas[i]],
         Tradicional: [""],
         Mega: [""],
         Devolucion: [""]
@@ -52,16 +64,15 @@ export class VentaComponent implements OnInit {
     }
   }
 
-  getTiendas() {
-    this._tiendaService.getItems().subscribe(data => {
-
-      this.tiendass = data.data
-      console.log(this.tiendass);
+  getTiendas(id: string | null) {
+    this._tiendaService.getTiendaByRuta(id).subscribe(({data}) => {
+      this.allTiendas = data
       this.addTienda();
     });
+
   }
 
-  enviar() {
+  save() {
     let form = this.form.value["tiendas"]
     let ventas: Venta[] = []
 
@@ -77,6 +88,8 @@ export class VentaComponent implements OnInit {
 
       }
     }
+    if(ventas.length == 0) {return}
+
     this._ventaService.saveArrayItems(ventas).subscribe(data => {
       console.log(data);
     })

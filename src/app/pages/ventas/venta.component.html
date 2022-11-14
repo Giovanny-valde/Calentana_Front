@@ -20,6 +20,7 @@
 
       <ng-container *ngFor="let item of tiendas.controls; let i=index">
         <div [formGroupName]="i">
+          <hr>
 
           <div class="row">
             <div class="col-3" [hidden]="true">
@@ -42,14 +43,15 @@
               <input type="number" class="form-control" placeholder="Devolucion" formControlName="Devolucion">
             </div>
           </div>
-
         </div>
+
       </ng-container>
+      <hr>
     </ng-container>
 
     <div class="row">
       <div class="d-grid gap-2 col-12 col-sm-6">
-        <button type="submit" class="btn btn-primary m-2" (click)="enviar()" [disabled]="form.invalid">
+        <button type="submit" class="btn btn-primary m-2" (click)="save()" [disabled]="form.invalid">
         Ingresar Ventas </button>
       </div>
     </div>

@@ -20,12 +20,12 @@ const routes: Routes = [
     component: RutaComponent,
   },
   {
-    path: "venta",
-    component: VentaComponent,
-  },
-  {
     path: "empleado",
     component: EmpleadoComponent,
+  },
+  {
+    path: "venta",
+    component: VentaComponent,
   },
 ];
 
