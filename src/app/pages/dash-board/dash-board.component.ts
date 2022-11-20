@@ -1,5 +1,6 @@
-import { VentaService } from '../../_service/venta.service';
+import {  Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dash-board',
@@ -8,13 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashBoardComponent implements OnInit {
 
+  id: string | null;
+  localStorage = localStorage
+
   constructor(
-    private _ventaService: VentaService
+    private _router: Router,
   ) { }
 
   ngOnInit(): void {
-    //this._ventaService.getItems().subscribe(data => console.log(data));
+  }
 
+  getParamId(){
+    this.id = localStorage.getItem("idRuta")
+  }
+
+  cerrarSesion() {
+    localStorage.clear()
+    this._router.navigate([`login`]);
   }
 
 }

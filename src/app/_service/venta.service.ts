@@ -3,6 +3,7 @@ import { GenericService } from './generic.service';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Venta } from '../_model/venta.interface';
+import { PageResponse } from '../_model/page-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,16 @@ export class VentaService extends GenericService<Venta>{
   reporteExcel(data: any) {
       const url = `${environment.HOST}/ventas/reporteExcel`;
       return this._http.post(url , data ,  { responseType: 'blob'});
+  }
+
+  ventasByfecha(data: {} )  {
+    const url = `${environment.HOST}/ventas/ventasByFechas`;
+    return this._http.post<PageResponse<Venta>>(url , data );
+  }
+
+  ventasTotalesByfecha(data: {} )  {
+    const url = `${environment.HOST}/ventas/ventasTotalesByFechas`;
+    return this._http.post<PageResponse<Venta>>(url , data );
   }
 
 }

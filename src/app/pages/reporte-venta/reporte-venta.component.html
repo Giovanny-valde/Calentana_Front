@@ -1,0 +1,76 @@
+<div class="container">
+  <br>
+  <form [formGroup]="form">
+    <div class="mb-9 row">
+      <label class="col-xs-3 col-sm-auto col-form-label"> Fecha Inicial : </label>
+      <div class="col-xs-3 col-sm-auto">
+        <input class="form-control" type="date" formControlName="FechaInicial" >
+      </div>
+      <label class="col-xs-3 col-sm-auto col-form-label"> Fecha Final : </label>
+      <div class="col-xs-3 col-sm-auto">
+        <input class="form-control" type="date" formControlName="FechaFinal">
+      </div>
+      <label class="col-xs-3 col-sm-auto col-form-label"> Ruta : </label>
+      <div class="col-xs-3 col-sm-3">
+        <ng-select [items]="rutas" 
+           bindLabel="Empleado.Nombre" 
+           bindValue="Id" 
+           formControlName="Ruta">
+        </ng-select>
+      </div>
+    </div>
+    <br>
+    <div class="mb-9 row">
+      <label class="col-xs-3 col-sm-auto col-form-label"> Acumular ventas ?</label>
+      <!-- <div class="col-sm-6"> -->
+        <div class="col-xs-1 col-sm-1">
+          <input type="radio" id="No"  formControlName="Acumular"  value=False checked>
+          <label for="No">No</label>
+        </div>
+        
+        <div class="col-xs-1 col-sm-1">
+          <input type="radio" id="Si"  formControlName="Acumular" value=True>
+          <label for="Si">Si</label>
+        </div>
+      </div>
+    <!-- </div> -->
+    <button class="btn btn-secondary col-sm-auto" (click)="searchFechas()">Buscar</button>
+    <button type="submit" class="btn btn-primary m-2" (click)="downloadExcel()">
+     Descargar Excel</button>
+    <hr>
+    <div class="mb-3 row">
+      <label class="col-xs-3 col-sm-auto col-form-label"> Buscar : </label>
+      <div class="col-xs-3 col-sm-auto">
+        <input class="form-control" type="text" [formControl]="filter">
+      </div>
+      <div class="col-xs-3 col-sm-auto">
+        <button class="btn btn-secondary col-sm-auto" (click)="getVentas()">Limpiar Filtros</button>
+      </div>
+    </div>
+  </form>
+  
+  <table class="table table-hover  table-bordered table-striped table-sm text-center">
+    <thead class="table-dark">
+      <tr>
+        <th> Fecha </th>
+        <th> Tienda </th>
+        <th> Tradicional </th>
+        <th> Megas </th>
+        <th> Devolucion </th>
+        <th> Total </th>
+        <th> Empleado </th>
+      </tr>
+    </thead>
+    <tBody>
+      <tr *ngFor="let item of ventas$ | async;">
+        <td> {{ item.Fecha  }} </td>
+        <td> {{ item.Tienda.Nombre | uppercase }} </td>
+        <td> {{ item.Tradicional | number}} </td>
+        <td> {{ item.Mega  | number }} </td>
+        <td> {{ item.Devolucion | number }} </td>
+        <td> {{ item.Total  | number}} </td>
+        <td> {{ item.Ruta.Empleado.Nombre  | uppercase }} </td>
+      </tr>
+    </tBody>
+  </table>
+</div>

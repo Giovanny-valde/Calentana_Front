@@ -1,3 +1,5 @@
+import { Empleado } from "./empleado.interface";
+
 export interface Venta {
   Tienda: Tienda;
   Tradicional: number;
@@ -16,4 +18,5 @@ interface Tienda {
 interface Ruta {
   Id: string;
   Nombre: string;
+  Empleado: Empleado;
 }

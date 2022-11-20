@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { Ruta } from 'src/app/_model/ruta.interface';
 import { Validators, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { NgbModal, NgbToast } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 
@@ -18,6 +19,8 @@ import { NgbModal, NgbToast } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./tienda.component.css']
 })
 export class TiendaComponent implements OnInit {
+
+  id: string | null;
 
   tiendas: Tienda[];
   tienda: Tienda;
@@ -29,11 +32,22 @@ export class TiendaComponent implements OnInit {
     private _tiendaService: TiendaService,
     private _formBuilder: FormBuilder,
     private _modalService: NgbModal,
+    private spinner : NgxSpinnerService,
   ) { }
 
   ngOnInit(): void {
-    //this.initForm();
-    this.getTiendas();
+    if(localStorage.getItem('admin') == null){
+      this.getParamId();
+      this._tiendaService.getChangeList().subscribe(() => this.getTiendasById(this.id))
+    }else{
+      this.getTiendas()
+      this._tiendaService.getChangeList().subscribe(() => this.getTiendas())
+    }
+  }
+  
+  getParamId(){
+    this.id = localStorage.getItem("idRuta")
+    this.getTiendasById(this.id);
   }
 
   initForm() {
@@ -68,15 +82,25 @@ export class TiendaComponent implements OnInit {
       Direccion: this.form.value["Direccion"],
       Ruta: this.form.value["Ruta"]
     }
-      console.log(tienda);
-      this._tiendaService.saveItem(tienda).subscribe(data => {console.log(data);
-      })
+    
+    this._tiendaService.saveItem(tienda).subscribe(data => {console.log(data);
+    })
+}
+
+  getTiendasById(id: string | null) {
+    this.spinner.show();
+    this._tiendaService.getTiendaByRuta(id).subscribe(data => {
+      this.tiendas = data.data
+      this.spinner.hide();
+      this.tableFilter();
+    });
   }
 
   getTiendas() {
+    this.spinner.show();
     this._tiendaService.getItems().subscribe(data => {
       this.tiendas = data.data
-      console.log(this.tiendas);
+      this.spinner.hide();
       this.tableFilter();
     });
   }

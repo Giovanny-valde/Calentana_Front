@@ -1,15 +1,16 @@
-import { TiendaComponent } from './pages/tienda/tienda.component';
-import { PagesModule } from './pages/pages.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { BootstrapModule } from './bootstrap/bootstrap.module';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -19,11 +20,16 @@ import { DatePipe } from '@angular/common';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     BootstrapModule,
+    NgxSpinnerModule,
+    NgSelectModule,
+    ToastrModule.forRoot()
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [],
   providers: [
     DatePipe,

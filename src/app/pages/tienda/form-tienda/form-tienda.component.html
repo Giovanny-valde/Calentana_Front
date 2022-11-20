@@ -8,10 +8,10 @@
     <div class="modal-body">
       <div class="row">
         <div class="col-12">
-          <div [hidden]="true">
+          <!-- <div [hidden]="true">
             <label for="exampleFormControlInput1" class="form-label"> ID </label>
             <input type="text" class="form-control" placeholder="ID" formControlName="Id">
-          </div>
+          </div> -->
 
           <label class="form-label"> Nombre </label>
           <input type="text" class="form-control" placeholder="Nombre" formControlName="Nombre">
@@ -31,8 +31,8 @@
           <!-- <label class="form-label"> Ruta </label>
           <input type="text" class="form-control" placeholder="Ruta" formControlName="Ruta"> -->
 
-          <label class="form-label"> Ruta </label>
-          <select class="form-select" placeholder="Ruta" formControlName="Ruta">
+          <label class="form-label" *ngIf="localStorage.getItem('admin') != null"> Ruta </label>
+          <select class="form-select" placeholder="Ruta" formControlName="Ruta" *ngIf="localStorage.getItem('admin') != null">
             <option *ngFor="let item of rutas" [value]="item.Id"> {{item.Nombre}} </option>
           </select>
 

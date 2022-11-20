@@ -13,6 +13,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormTiendaComponent implements OnInit {
 
+  idRuta: string | null;
+  localStorage = localStorage
   form: FormGroup;
   tiendas: Tienda[];
   rutas: Ruta[];
@@ -29,6 +31,14 @@ export class FormTiendaComponent implements OnInit {
     this.getTiendas();
     this.getRutas(),
     this.initForm();
+    this.validation();
+  }
+
+  validation(){
+    if(localStorage.getItem('admin') == null){
+      this.idRuta = localStorage.getItem("idRuta")
+      this.form.controls["Ruta"].setValue(this.idRuta);
+    }
   }
 
   emptyForm() {
@@ -45,7 +55,7 @@ export class FormTiendaComponent implements OnInit {
 
   editForm() {
     this.form = this._formBuilder.group({
-      Id: [this.tienda.Id, [Validators.required]],
+      Id: [this.tienda.Id],
       Nombre: [this.tienda.Nombre, [Validators.required]],
       Dueno: [this.tienda.Dueno, [Validators.required]],
       Nit: [this.tienda.Nit],
@@ -53,6 +63,7 @@ export class FormTiendaComponent implements OnInit {
       Direccion: [this.tienda.Direccion, [Validators.required]],
       Ruta: [this.tienda.Ruta.Id, [Validators.required]]
     });
+    this.idRuta = this.tienda.Ruta.Id;
   }
 
   initForm() {
@@ -63,21 +74,20 @@ export class FormTiendaComponent implements OnInit {
   }
 
   operate() {
+    let rawValuesForm = this.form.getRawValue();
+
     let tienda: Tienda = {
-      Id: this.form.value["Id"],
-      Nombre: this.form.value["Nombre"],
-      Dueno: this.form.value["Dueno"],
-      Nit: this.form.value["Nit"],
-      Telefono: this.form.value["Telefono"],
-      Direccion: this.form.value["Direccion"],
-      Ruta: this.form.value["Ruta"]
+      ...rawValuesForm
     }
+
     if (this.tienda) {
       this._tiendaService.updateItem(tienda).subscribe(data => {
+        this._tiendaService.setChangeList(this.tiendas);
         this.closeModal();
       });
     } else {
       this._tiendaService.saveItem(tienda).subscribe(data => {
+        this._tiendaService.setChangeList(this.tiendas);
         this.closeModal();
       });
     }

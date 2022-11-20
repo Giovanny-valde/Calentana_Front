@@ -1,10 +1,10 @@
+import { PageResponse } from './../_model/page-response.interface';
 import { HttpClient } from '@angular/common/http';
 import { GenericService } from './generic.service';
 import { Injectable } from '@angular/core';
 import { Ruta } from '../_model/ruta.interface';
 import { environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
-import { PageResponse } from '../_model/page-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,11 @@ export class RutaService extends GenericService<Ruta> {
       _http,
       `${environment.HOST}/rutas`
     )
+   }
+
+   getRutaByEmployee(id: number){
+    let url = `${environment.HOST}/rutas/byEmpleado/${id}`
+    return this._http.get<Ruta[]>(url);
    }
 
    setChangeList(lista: Ruta[]) {

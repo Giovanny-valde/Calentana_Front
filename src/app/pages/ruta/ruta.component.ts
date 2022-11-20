@@ -1,3 +1,5 @@
+import { StorageService } from './../../_service/storage.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormRutaComponent } from './form-ruta/form-ruta.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Ruta } from './../../_model/ruta.interface';
@@ -6,6 +8,7 @@ import { RutaService } from './../../_service/ruta.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ruta',
@@ -14,6 +17,8 @@ import { debounceTime, map, startWith } from 'rxjs/operators';
 })
 
 export class RutaComponent implements OnInit {
+
+  id: string;
 
   rutas: Ruta[];
 
@@ -29,14 +34,23 @@ export class RutaComponent implements OnInit {
   constructor(
     private _rutaService: RutaService,
     private _modalService: NgbModal,
+    private activatedRoute : ActivatedRoute,
+    private spinner : NgxSpinnerService
   ) {
 
   }
 
   ngOnInit(): void {
-    this.refreshCountries()
+    this.refreshCountries();
     this.getRutas();
     this._rutaService.getChangeList().subscribe(() => this.getRutas())
+  }
+
+  getParamId(){
+    this.activatedRoute.params.subscribe(data =>{
+      this.id = data["id"];
+      this.getRutas();
+    });
   }
 
   openModal(ruta?: Ruta) {
@@ -51,8 +65,10 @@ export class RutaComponent implements OnInit {
   }
 
   getRutas() {
+    this.spinner.show();
     this._rutaService.getItems().subscribe(data => {
       this.rutas = data.data;
+      this.spinner.hide();
       this.tableFilter();
     });
   }
@@ -68,10 +84,9 @@ export class RutaComponent implements OnInit {
   search(text: string): Ruta[] {
     return this.rutas.filter(val => {
       const term = text.toLowerCase();
-      return []
-      // return val.Nombre.toLowerCase().includes(term) ||
-      // val.Cedula.toString().toLowerCase().includes(term) ||
-      // val.Telefono.toString().toLowerCase().includes(term)
+      return val.Nombre.toLowerCase().includes(term) ||
+      val.Empleado.Cedula.toString().toLowerCase().includes(term) ||
+      val.Empleado.Nombre.toString().toLowerCase().includes(term)
     });
   }
 

@@ -1,3 +1,4 @@
+import { StorageService } from './../../_service/storage.service';
 import { map } from 'rxjs/operators';
 import { Tienda } from './../../_model/tienda.interface';
 import { Venta } from './../../_model/venta.interface';
@@ -8,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-venta',
@@ -16,23 +18,31 @@ import { DatePipe } from '@angular/common';
 })
 export class VentaComponent implements OnInit {
 
+  id: string | null;
+
   form: FormGroup;
   formTiendas!: FormGroup;
   ventas: Venta[];
-  tiendass: Tienda[];
+  allTiendas: Tienda[];
 
   constructor(
     private _tiendaService: TiendaService,
     private _ventaService: VentaService,
     private formBuilder: FormBuilder,
     private activatedRoute : ActivatedRoute,
-    private datePipe : DatePipe
+    private spinner : NgxSpinnerService,
+    
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((res : any) =>{
-      this.getTiendas(res.id);
+    this.getParamId();
+  }
+
+  getParamId(){
+    this.activatedRoute.params.subscribe(data =>{
+      this.id = localStorage.getItem("idRuta")
       this.initForm();
+      this.getTiendas(this.id)
     });
   }
 
@@ -46,9 +56,9 @@ export class VentaComponent implements OnInit {
   }
 
   addTienda() {
-    for (let i = 0; i < this.tiendass.length; i++) {
+    for (let i = 0; i < this.allTiendas.length; i++) {
       const nuevaTiendaForm = this.formBuilder.group({
-        Tienda: [this.tiendass[i]],
+        Tienda: [this.allTiendas[i]],
         Tradicional: [""],
         Mega: [""],
         Devolucion: [""]
@@ -57,15 +67,17 @@ export class VentaComponent implements OnInit {
     }
   }
 
-  getTiendas(id : string) {
+  getTiendas(id: string | null) {
+    this.spinner.show()
     this._tiendaService.getTiendaByRuta(id).subscribe(({data}) => {
-      this.tiendass = data
+      this.allTiendas = data
+        this.spinner.hide()
       this.addTienda();
     });
 
   }
 
-  enviar() {
+  save() {
     let form = this.form.value["tiendas"]
     let ventas: Venta[] = []
 
@@ -81,31 +93,15 @@ export class VentaComponent implements OnInit {
 
       }
     }
+    if(ventas.length == 0) {return}
+
     this._ventaService.saveArrayItems(ventas).subscribe(data => {
       console.log(data);
     })
     console.log(ventas);
   }
 
-  excel(){
-    
-    let data = {
-      "FechaInicial": "2022-01-10",
-      "FechaFinal": "2022-01-11",
-      "Ruta": ""
-    }
-
-    this._ventaService.reporteExcel(data).subscribe((data: any) => {this.downloadFile(data) }) 
-  }
   
-  downloadFile(data: any) {
-    const blob = new Blob([data]);
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `Ventas-${this.datePipe.transform(Date.now(), 'yyyy-MM-dd')}.xlsx`);
-    link.click();
-  }
 
   get tiendas() {
     return this.form.get("tiendas") as FormArray;

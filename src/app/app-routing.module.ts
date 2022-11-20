@@ -3,6 +3,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthGuard } from './guards/auth.guard';
+import { GuestGuard } from './guards/guest.guard';
 
 const routes: Routes = [
   {
@@ -12,12 +14,14 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [GuestGuard]
   },
   {
     path: "pages",
     component: DashBoardComponent,
-    loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)
+    loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule), 
+    canActivate: [AuthGuard]
   }
 ];
 

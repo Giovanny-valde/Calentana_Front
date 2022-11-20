@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "b830f107-1b0c-428f-9855-73eb5ac263b8"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -28,8 +31,8 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
-
             ],
             "scripts": [
               "node_modules/@popperjs/core/dist/umd/popper.min.js",

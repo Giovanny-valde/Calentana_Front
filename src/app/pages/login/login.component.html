@@ -1,8 +1,11 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true">+
+  <p style="color: white" > Loading... </p>
+</ngx-spinner>
+
 <div class="card" style="width: 18rem;">
   <div class="card-body">
-
     <form [formGroup]="form">
-
+      
       <div [hidden]="true">
         <input matInput type="text" class="form-control" placeholder="ID" formControlName="id">
       </div>
@@ -14,14 +17,14 @@
       <input matInput type="password" class="form-control" placeholder="Contraseña" formControlName="password">
       <hr>
 
+      <input type="checkbox" id="recordar" class="form-check-input" formControlName="recordar" >
+      <label for="recordar" class="form-check-label">&nbsp; Recordar </label>
+
       <div class="d-grid gap-2 col-12 mx-auto">
-        <button class="btn btn-primary m-2" (click)="iniciarSesion()" [disabled]="form.invalid"> Iniciar Sesion
+        <button class="btn btn-primary m-2" (click)="iniciarSesion()" > Iniciar Sesion
         </button>
       </div>
 
-
     </form>
-
-
   </div>
 </div>
