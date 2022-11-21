@@ -107,7 +107,9 @@ export class ReporteVentaComponent implements OnInit {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `Ventas-${this.datePipe.transform(Date.now(), 'yyyy-MM-dd')}.xlsx`);
+      let FechaInicial = this.datePipe.transform(this.form.controls["FechaInicial"].value, 'yyyy-MM-dd')
+      let FechaFinal = this.datePipe.transform(this.form.controls["FechaFinal"].value, 'yyyy-MM-dd')
+      link.setAttribute('download', `Ventas-${FechaFinal}-${FechaInicial}.xlsx`);
       link.click();
     }) 
   }
