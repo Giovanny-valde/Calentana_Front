@@ -2,16 +2,16 @@
   <br>
   <form [formGroup]="form">
     <div class="mb-9 row">
-      <label class="col-xs-3 col-sm-auto col-form-label"> Fecha Inicial : </label>
-      <div class="col-xs-3 col-sm-auto">
+      <label class="col-lg-1 col-sm-auto col-form-label"> Fecha Inicial</label>
+      <div class="col-lg-2 col-sm-auto">
         <input class="form-control" type="date" formControlName="FechaInicial" >
       </div>
-      <label class="col-xs-3 col-sm-auto col-form-label"> Fecha Final : </label>
-      <div class="col-xs-3 col-sm-auto">
+      <label class="col-lg-1 col-sm-auto col-form-label"> Fecha Final : </label>
+      <div class="col-lg-2 col-sm-auto">
         <input class="form-control" type="date" formControlName="FechaFinal">
       </div>
-      <label class="col-xs-3 col-sm-auto col-form-label"> Ruta : </label>
-      <div class="col-xs-3 col-sm-3">
+      <label class="col-lg-1 col-sm-auto col-form-label"> Ruta : </label>
+      <div class="col-lg-2 col-sm-auto">
         <ng-select [items]="rutas" 
            bindLabel="Empleado.Nombre" 
            bindValue="Id" 
@@ -36,9 +36,17 @@
     <!-- </div> -->
     <button class="btn btn-secondary col-sm-auto" (click)="searchFechas()">Buscar</button>
     <button type="submit" class="btn btn-primary m-2" (click)="downloadExcel()">
-     Descargar Excel</button>
-    <hr>
-    <div class="mb-3 row">
+      Descargar Excel</button>
+      <hr>
+      
+      <ul>
+        <li>Tradicional : {{tradicional | number}}</li>
+        <li>Mega : {{mega | number}}</li>
+        <li>Devolucion : {{devolucion | number}}</li>
+        <li>TOTAL : {{tradicional + mega - devolucion | number}}</li>
+      </ul>
+       
+      <div class="mb-3 row">
       <label class="col-xs-3 col-sm-auto col-form-label"> Buscar : </label>
       <div class="col-xs-3 col-sm-auto">
         <input class="form-control" type="text" [formControl]="filter">
@@ -49,7 +57,7 @@
     </div>
   </form>
   
-  <table class="table table-hover  table-bordered table-striped table-sm text-center">
+  <table class="table table-hover  table-bordered table-striped   text-center">
     <thead class="table-dark">
       <tr>
         <th> Fecha </th>

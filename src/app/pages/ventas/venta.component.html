@@ -23,16 +23,34 @@
           <hr>
 
           <div class="row">
-            <div class="col-3" [hidden]="true">
+            <div  [hidden]="true">
               <input type="text" class="form-control" placeholder="Tienda" formControlName="Tienda">
             </div>
 
             <div class="col-3">
-              <span > {{ item.value["Tienda"].Nombre}} : </span>
+              <span > {{ item.value["Tienda"].Nombre }} : </span>
+              <!-- {{item.value | json}} -->
+              <!-- <button type="button"  > -->
+                <br>
+                <i class="fa-solid fa-b" placement="right" [ngbTooltip]='item.value.Tienda.Barrio'></i>
+                &nbsp;
+                <i class="fa-solid fa-d" placement="right" [ngbTooltip]='item.value.Tienda.Direccion'></i>
+
+              <!-- </button> -->
+              <!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" [title]="item.value.Tienda.Nombre">
+                Tooltip on top
+              </button> -->
             </div>
 
             <div class="col-3">
-              <input type="number" class="form-control" placeholder="Tradicional" formControlName="Tradicional">
+              <input 
+                type="text"  
+                class="form-control" 
+                placeholder="Tradicional" 
+                formControlName="Tradicional"
+                mask="separator"
+                thousandSeparator="."
+                >
             </div>
 
             <div class="col-3">
@@ -43,6 +61,14 @@
               <input type="number" class="form-control" placeholder="Devolucion" formControlName="Devolucion">
             </div>
           </div>
+
+
+          <!-- <div class="col-2 col-xl-2">
+            <button class="btn btn-primary rounded-circle w-25 "  > 
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div> -->
+
         </div>
 
       </ng-container>

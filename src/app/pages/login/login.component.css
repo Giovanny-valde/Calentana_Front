@@ -24,3 +24,8 @@
   justify-content: center;
   margin: 100px 0px;
 }
+
+
+.fa-solid:hover{
+  zoom: 1.1;
+}

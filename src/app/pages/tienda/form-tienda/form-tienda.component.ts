@@ -48,7 +48,8 @@ export class FormTiendaComponent implements OnInit {
       Dueno: [null, [Validators.required]],
       Nit: [null],
       Telefono: [null],
-      Direccion: [null, [Validators.required]],
+      Direccion: [null],
+      Barrio: [null, [Validators.required]],
       Ruta: [null, [Validators.required]]
     });
   }
@@ -61,6 +62,7 @@ export class FormTiendaComponent implements OnInit {
       Nit: [this.tienda.Nit],
       Telefono: [this.tienda.Telefono],
       Direccion: [this.tienda.Direccion, [Validators.required]],
+      Barrio: [this.tienda.Barrio, [Validators.required]],
       Ruta: [this.tienda.Ruta.Id, [Validators.required]]
     });
     this.idRuta = this.tienda.Ruta.Id;

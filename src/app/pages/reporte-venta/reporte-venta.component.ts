@@ -16,6 +16,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ReporteVentaComponent implements OnInit {
 
+  tradicional = 0
+  mega = 0
+  devolucion = 0
+
   id: string | null;
   ventas: Venta[];
   rutas : Ruta[]
@@ -59,6 +63,7 @@ export class ReporteVentaComponent implements OnInit {
   }
 
   tableFilter() {
+    this.obtenerTotal()
     this.ventas$ = this.filter.valueChanges.pipe(
       startWith(''),
       //debounceTime(300),
@@ -66,9 +71,22 @@ export class ReporteVentaComponent implements OnInit {
     )
   }
 
+  obtenerTotal(){
+      this.tradicional = 0
+      this.mega = 0
+      this.devolucion = 0
+      this.ventas.forEach(element => {
+          this.tradicional += element.Tradicional
+          this.mega += element.Mega
+          this.devolucion += element.Devolucion
+      })
+  }
+
   searchFechas(){
     if (this.form.invalid) {
-      return
+        if (this.form.controls["Ruta"].value == null && this.form.controls['Ruta'].value == "") {
+          return     
+        } 
     }
     if(this.form.controls['Ruta'].value == null) {this.form.controls['Ruta'].value == ""}
     console.log(this.form.value );
@@ -88,10 +106,10 @@ export class ReporteVentaComponent implements OnInit {
   search(text: string): Venta[] {
     return this.ventas.filter(val => {
       const term = text.toLowerCase();
-      return val.Tradicional.toString().toLowerCase().includes(term) ||
-      val.Devolucion.toString().toLowerCase().includes(term) ||
+      return val.Tradicional?.toString().toLowerCase().includes(term) ||
+      val.Devolucion?.toString().toLowerCase().includes(term) ||
       val.Fecha.toString().toLowerCase().includes(term) ||
-      val.Mega.toString().toLowerCase().includes(term) ||
+      val.Mega?.toString().toLowerCase().includes(term) ||
       val.Ruta.Empleado.Nombre.toLowerCase().includes(term) ||
       val.Tienda.Nombre.toLowerCase().includes(term) ||
       val.Total.toString().toLowerCase().includes(term)
@@ -109,7 +127,7 @@ export class ReporteVentaComponent implements OnInit {
       link.href = url;
       let FechaInicial = this.datePipe.transform(this.form.controls["FechaInicial"].value, 'yyyy-MM-dd')
       let FechaFinal = this.datePipe.transform(this.form.controls["FechaFinal"].value, 'yyyy-MM-dd')
-      link.setAttribute('download', `Ventas-${FechaFinal}-${FechaInicial}.xlsx`);
+      link.setAttribute('download', `Ventas:${FechaInicial}/${FechaFinal}.xlsx`);
       link.click();
     }) 
   }

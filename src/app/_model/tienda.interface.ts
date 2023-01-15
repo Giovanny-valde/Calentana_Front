@@ -6,6 +6,7 @@ export interface Tienda {
     Dueno: string,
     Nit: string,
     Telefono: string,
+    Barrio: string,
     Direccion: string,
     Ruta: Ruta
 }

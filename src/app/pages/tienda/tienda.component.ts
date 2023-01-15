@@ -50,18 +50,6 @@ export class TiendaComponent implements OnInit {
     this.getTiendasById(this.id);
   }
 
-  initForm() {
-    this.form = this._formBuilder.group({
-      Id: [null],
-      Nombre: [null, [Validators.required]],
-      Dueño: null,
-      Nit: null,
-      Telefono: null,
-      Direccion: null,
-      Ruta: [null, [Validators.required]]
-    })
-  }
-
   openModal(tienda?: Tienda) {
     let modal = this._modalService.open(FormTiendaComponent)
     modal.componentInstance.tienda = tienda
@@ -71,21 +59,6 @@ export class TiendaComponent implements OnInit {
     this._tiendaService.deleteItem(id).subscribe(data => {console.log(data);
     })
   }
-
-  operar() {
-    let tienda: Tienda = {
-      Id: "",
-      Nombre: this.form.value["Nombre"],
-      Dueno: this.form.get("Dueno")?.value,
-      Nit: this.form.value["Nit"],
-      Telefono: this.form.value["Telefono"],
-      Direccion: this.form.value["Direccion"],
-      Ruta: this.form.value["Ruta"]
-    }
-    
-    this._tiendaService.saveItem(tienda).subscribe(data => {console.log(data);
-    })
-}
 
   getTiendasById(id: string | null) {
     this.spinner.show();
@@ -118,9 +91,10 @@ export class TiendaComponent implements OnInit {
       const term = text.toLowerCase();
       return val.Nombre.toLowerCase().includes(term) ||
       val.Dueno.toLowerCase().includes(term) ||
-      val.Nit.toLowerCase().includes(term) ||
-      val.Telefono.toLowerCase().includes(term) ||
-      val.Direccion.toLowerCase().includes(term) ||
+      val.Nit?.toString().toLowerCase().includes(term) ||
+      val.Telefono?.toString().toLowerCase().includes(term) ||
+      val.Direccion?.toLowerCase().includes(term) ||
+      val.Barrio?.toLowerCase().includes(term) ||
       val.Ruta.Nombre.toLowerCase().includes(term)
     });
   }

@@ -10,6 +10,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-venta',
@@ -18,8 +19,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class VentaComponent implements OnInit {
 
-  id: string | null;
+  tradicional : number = 0
+  mega : number = 0
+  devolucion: number = 0
 
+  id: string | null;
   form: FormGroup;
   formTiendas!: FormGroup;
   ventas: Venta[];
@@ -72,6 +76,7 @@ export class VentaComponent implements OnInit {
     this._tiendaService.getTiendaByRuta(id).subscribe(({data}) => {
       this.allTiendas = data
         this.spinner.hide()
+        
       this.addTienda();
     });
 
@@ -83,22 +88,44 @@ export class VentaComponent implements OnInit {
 
     for (let element of form) {
       if (element.Tradicional != "" || element.Mega != "" || element.Devolucion != "" ) {
-
         const obj = {
           ...element,
           Tienda : element.Tienda.Id
         }
         ventas.push(obj)
         //ventas.push(element)
-
       }
     }
     if(ventas.length == 0) {return}
-
+    this.spinner.show()
     this._ventaService.saveArrayItems(ventas).subscribe(data => {
-      console.log(data);
+      console.log(ventas);
+      this.spinner.hide()
+      ventas.forEach(venta => { 
+          this.devolucion += parseInt(venta.Devolucion.toString().split('.').join(''))
+          this.tradicional += parseInt(venta.Tradicional.toString().split('.').join(''))
+          this.mega += parseInt(venta.Mega.toString().split('.').join(''))
+      })
+
+      this.devolucion = this.devolucion ? this.devolucion : 0
+      this.tradicional = this.tradicional ? this.tradicional : 0
+      this.mega = this.mega ? this.mega : 0
+
+      Swal.fire({
+        title: 'Guardado Exitosamente !',
+        html:
+        "<ul>"+
+        ` <li>Tradicional : ${this.tradicional}</li>`+
+        ` <li>Mega : ${this.mega} </li>` +
+        ` <li>Devolucion : ${this.devolucion}</li>`+
+        ` <li>TOTAL : ${this.tradicional + this.mega - this.devolucion }</li>`+
+        `</ul>`,
+        // 'You can use <b>bold text</b>, ' +
+        // '<a href="//sweetalert2.github.io">links</a> ' +
+        // 'and other HTML tags',
+      })
     })
-    console.log(ventas);
+    // console.log(ventas);
   }
 
   

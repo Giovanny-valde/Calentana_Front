@@ -14,6 +14,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
+  isActive: boolean = true;
 
   constructor(
     private _router: Router,
@@ -40,8 +41,12 @@ export class LoginComponent implements OnInit {
       this.form.controls["password"].setValue(document.cookie.split("pass=")[1].split(";")[0]);
       this.form.controls["recordar"].setValue(true)
     }
-
   }
+
+  seePassword(){
+    this.isActive = !this.isActive;
+  }
+  
 
   recordar(){
     let isChecked = this.form.controls["recordar"].value
@@ -80,27 +85,21 @@ export class LoginComponent implements OnInit {
       }, 300);
     
     } else if (user == pass && user != "" && pass != "") {
-      console.log(user);
       this.recordar()
       this._empleadoService.getEmpleadoByCedula(user).subscribe( ({data})  => {
         if(data.length != 0){
-          this._rutaService.getRutaByEmpleado(data[0].Id).subscribe( (res)  => {
-            let ruta = res.data[0].Id;
-            let empleado = res.data[0].Empleado.Nombre;
+            let ruta = data[0].Id;
+            let empleado = data[0].Empleado.Nombre;
             localStorage.setItem("idRuta", ruta)
             setTimeout(() => {
-              this.spinner.hide();        
-              this.toastr.success( `${empleado}` , 'Bienvenido!',{
-                positionClass: 'toast-top-center',
-              });
+              this.spinner.hide();
+              this.toastMessage(empleado, "Bienvenido!"  , "success");
               this._router.navigate([`pages/venta/`]);
             }, 300);
-
-          })
         }else{
           setTimeout(() => {
             this.spinner.hide();
-            this.toastMessage("contraseña o usuario incorrecto", "Error");
+            this.toastMessage("contraseña o usuario incorrecto", "Error" ,"error");
           }, 2000);
         }
       })
@@ -108,15 +107,21 @@ export class LoginComponent implements OnInit {
       // alert("contraseña o usuario incorrecto")
       setTimeout(() => {
         this.spinner.hide();
-        this.toastMessage("contraseña o usuario incorrecto", "Error");
+        this.toastMessage("contraseña o usuario incorrecto", "Error" , "error");
       }, 2000);
     }
   }
 
-  toastMessage(titulo : string , mensaje : string){
-    this.toastr.error(`${titulo}`, `${mensaje}`, { 
-      positionClass: 'toast-top-center',
-    });
+  toastMessage(titulo : string , mensaje : string , tipo : "error" | "success"){
+    if ( tipo == "error"){
+      this.toastr.error(`${titulo}`, `${mensaje}`, { 
+        positionClass: 'toast-top-center',
+      });
+    }else{
+      this.toastr.success(`${titulo}`, `${mensaje}`, { 
+        positionClass: 'toast-top-center',
+      });
+    }
   }
 
 }

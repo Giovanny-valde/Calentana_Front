@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 @NgModule({
   declarations: [
@@ -27,7 +28,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
     BootstrapModule,
     NgxSpinnerModule,
     NgSelectModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgxMaskModule.forRoot({
+      dropSpecialCharacters : false
+    }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [],

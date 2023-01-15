@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Empleado } from '../_model/empleado.interface';
 import { environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
+import { Ruta } from '../_model/ruta.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class EmpleadoService extends GenericService<Empleado> {
 
    getEmpleadoByCedula(cedula: string) {
     const url = `${environment.HOST}/empleados/byCedula/${cedula}`;
-    return this._http.get<PageResponse<Empleado>>(url);
+    return this._http.get<PageResponse<Ruta>>(url);
    }
 
 }

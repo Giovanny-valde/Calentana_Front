@@ -23,11 +23,6 @@ export class RutaService extends GenericService<Ruta> {
     )
    }
 
-   getRutaByEmployee(id: number){
-    let url = `${environment.HOST}/rutas/byEmpleado/${id}`
-    return this._http.get<Ruta[]>(url);
-   }
-
    setChangeList(lista: Ruta[]) {
     this.$changeList.next(lista)
    }

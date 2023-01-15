@@ -6,6 +6,7 @@ import { DashBoardComponent } from './dash-board/dash-board.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
+import { CobroComponent } from './cobro/cobro.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: "reporte-ventas",
     component: ReporteVentaComponent, 
+  },
+  {
+    path: "cobro",
+    component: CobroComponent, 
   },
 ];
 

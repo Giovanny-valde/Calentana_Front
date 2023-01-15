@@ -14,6 +14,10 @@ import { FormEmpleadoComponent } from './empleado/form-empleado/form-empleado.co
 import { ReporteVentaComponent } from './reporte-venta/reporte-venta.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CobroComponent } from './cobro/cobro.component';
+import { FormCobroComponent } from './cobro/form-cobro/form-cobro.component';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgbTooltip, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FormTiendaComponent,
     EmpleadoComponent,
     FormEmpleadoComponent,
-    ReporteVentaComponent
+    ReporteVentaComponent,
+    CobroComponent,
+    FormCobroComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +40,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ReactiveFormsModule,
     FormsModule,
     NgxSpinnerModule,
-    NgSelectModule
+    NgSelectModule,
+    NgbTooltipModule,
+    NgxMaskModule.forChild()
   ]
 })
 export class PagesModule { }

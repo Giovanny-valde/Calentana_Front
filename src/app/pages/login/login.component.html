@@ -10,11 +10,22 @@
         <input matInput type="text" class="form-control" placeholder="ID" formControlName="id">
       </div>
 
-      <label class="form-label"> Usuario </label>
-      <input matInput type="text" class="form-control" placeholder="Usuario" formControlName="username">
-
-      <label class="form-label"> Contraseña </label>
-      <input matInput type="password" class="form-control" placeholder="Contraseña" formControlName="password">
+      <label for="">Usuario</label>
+      <div class="input-group ">
+        <input type="text" class="form-control" placeholder="Usuario" formControlName="username">
+        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+      </div>
+      <br>
+      
+      <label for="">Contraseña</label>
+      <div class="input-group ">
+        <input matInput [type]="isActive ? 'password' : 'text' " class="form-control" placeholder="Contraseña" formControlName="password">
+        <span class="input-group-text" >
+          <i (click)="isActive = !isActive " 
+              [ngClass]="[!isActive ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye']">
+          </i> 
+        </span>
+      </div>
       <hr>
 
       <input type="checkbox" id="recordar" class="form-check-input" formControlName="recordar" >

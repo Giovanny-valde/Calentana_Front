@@ -8,12 +8,17 @@ import { Empleado } from './../../_model/empleado.interface';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+
+
 @Component({
   selector: 'app-empleado',
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css']
 })
 export class EmpleadoComponent implements OnInit {
+
+
+
 
   page: any = 1;
   pageSize: any = 4;
@@ -27,6 +32,7 @@ export class EmpleadoComponent implements OnInit {
     private _empleadoService: EmpleadoService,
     private _modalService: NgbModal,
     private spinner : NgxSpinnerService,
+    
   ) {
 
   }
@@ -34,12 +40,12 @@ export class EmpleadoComponent implements OnInit {
   ngOnInit(): void {
     this.getEmpleados();
     this._empleadoService.getChangeList().subscribe(() => this.getEmpleados())
+
   }
 
   openModal(empleado?: Empleado) {
     let modal = this._modalService.open(FormEmpleadoComponent)
     modal.componentInstance.empleado = empleado;
-    //modal.result.then((res) => {})
   }
 
   eliminar(id: string) {

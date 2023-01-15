@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // HOST: "http://localhost:3001/api"
-  HOST : "https://calentanaback.onrender.com/api"
+  HOST: "http://localhost:3001/api"
+  // HOST : "https://calentanaback.onrender.com/api"
 };
 
 /*
