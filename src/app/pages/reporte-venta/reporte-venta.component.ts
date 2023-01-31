@@ -8,6 +8,7 @@ import { Ruta } from 'src/app/_model/ruta.interface';
 import { RutaService } from 'src/app/_service/ruta.service';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Target } from '@angular/compiler';
 
 @Component({
   selector: 'app-reporte-venta',
@@ -21,11 +22,17 @@ export class ReporteVentaComponent implements OnInit {
   devolucion = 0
 
   id: string | null;
-  ventas: Venta[];
+  ventas: Venta[] = [];
+  ventasPag: Venta[] = [];
   rutas : Ruta[]
   form: FormGroup;
   ventas$: Observable<Venta[]>;
   filter: FormControl = new FormControl("");
+  Math : Math
+  
+  page = 1;
+	pageSize = 10;
+	collectionSize = this.ventas.length;
 
   constructor(
     private _ventaService: VentaService,
@@ -56,9 +63,10 @@ export class ReporteVentaComponent implements OnInit {
   getVentas(){
     this.spinner.show();
     this._ventaService.getItems().subscribe(data => {
-      this.ventas = data.data
-      this.spinner.hide();
-      this.tableFilter();
+    this.ventas = data.data
+    this.refreshCountries(this.page)
+    this.spinner.hide();
+    this.tableFilter();
     })
   }
 
@@ -66,7 +74,6 @@ export class ReporteVentaComponent implements OnInit {
     this.obtenerTotal()
     this.ventas$ = this.filter.valueChanges.pipe(
       startWith(''),
-      //debounceTime(300),
       map(text => this.search(text))
     )
   }
@@ -89,22 +96,29 @@ export class ReporteVentaComponent implements OnInit {
         } 
     }
     if(this.form.controls['Ruta'].value == null) {this.form.controls['Ruta'].value == ""}
-    console.log(this.form.value );
+      this.page = 1
+      this.spinner.show();
     if(this.form.controls['Acumular'].value == "True"){
       this._ventaService.ventasTotalesByfecha(this.form.value).subscribe(data => {
         this.ventas = data.data
+        this.spinner.hide();
+        this.refreshCountries(this.page)
         this.tableFilter();
       })
     }else{
       this._ventaService.ventasByfecha(this.form.value).subscribe(data => {
           this.ventas = data.data
+          this.spinner.hide();
+          this.refreshCountries(this.page)
           this.tableFilter();
       })
     }
   }
   
   search(text: string): Venta[] {
-    return this.ventas.filter(val => {
+    this.collectionSize = this.ventas.length;
+
+    return this.ventasPag.filter(val => {
       const term = text.toLowerCase();
       return val.Tradicional?.toString().toLowerCase().includes(term) ||
       val.Devolucion?.toString().toLowerCase().includes(term) ||
@@ -132,6 +146,18 @@ export class ReporteVentaComponent implements OnInit {
     }) 
   }
 
+  refreshCountries(page : number ) {
+    let paginas = Math.round(this.ventas.length / this.pageSize)
+    if( page > 0  && page <= paginas) {
+      this.page = page;
+      this.ventasPag = this.ventas.map((venta) => ( venta )).slice(
+      (this.page - 1) * this.pageSize,
+      (this.page - 1) * this.pageSize + this.pageSize,
+      );
+      this.tableFilter() 
+    }
+	}
+  
 
 
 }

@@ -52,15 +52,39 @@
         <input class="form-control" type="text" [formControl]="filter">
       </div>
       <div class="col-xs-3 col-sm-auto">
-        <button class="btn btn-secondary col-sm-auto" (click)="getVentas()">Limpiar Filtros</button>
+        <button class="btn btn-secondary col-sm-auto"  (click)="getVentas()">Limpiar Filtros</button>
       </div>
     </div>
   </form>
-  
-  <table class="table table-hover  table-bordered table-striped   text-center">
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link"   (click)="refreshCountries(page - 1)">Previous</a></li>
+      <li class="page-item" (click)="refreshCountries(1)"><a class="page-link" >1</a></li>
+      <li class="page-item" (click)="refreshCountries(2)"><a class="page-link" >2</a></li>
+      <li class="page-item" (click)="refreshCountries(3)"><a class="page-link" >3</a></li>
+      <li>
+        <input type="number" placeholder="Pagina" class="form-control sm" [(ngModel)]="page" (blur)="refreshCountries(page)">
+        <!-- <ng-select [items]="rutas" 
+           bindLabel="Empleado.Nombre" 
+           bindValue="Id" 
+           formControlName="Ruta">
+        </ng-select> -->
+      </li>
+      <li class="page-item"><a class="page-link" (click)="refreshCountries(page + 1)">Next</a></li>
+      <li class="page-item"><a class="page-link" >Pagina :{{page}}  De  {{(this.ventas.length / this.pageSize) | number:'1.0-0'}}</a></li>
+    </ul>
+  </nav>
+  <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (change)="refreshCountries(page)">
+		<option [ngValue]="10">10 registros por pagina</option>
+		<option [ngValue]="20">20 registros por pagina</option>
+		<option [ngValue]="30">30 registros por pagina</option>
+	</select>
+  <table class="table table-hover  table-bordered table-striped   text-center table-sortable">
     <thead class="table-dark">
       <tr>
-        <th> Fecha </th>
+        <th> # </th>
+        <th class="order"> Fecha <i class="fa-sharp fa-solid fa-sort"></i> </th>
         <th> Tienda </th>
         <th> Tradicional </th>
         <th> Megas </th>
@@ -70,7 +94,8 @@
       </tr>
     </thead>
     <tBody>
-      <tr *ngFor="let item of ventas$ | async;">
+      <tr *ngFor="let item of ventas$ | async; let indice=index ">
+        <td> {{ (indice + 1) * page}}</td>
         <td> {{ item.Fecha  }} </td>
         <td> {{ item.Tienda.Nombre | uppercase }} </td>
         <td> {{ item.Tradicional | number}} </td>
@@ -82,3 +107,5 @@
     </tBody>
   </table>
 </div>
+
+
